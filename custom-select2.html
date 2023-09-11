@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic custom select2</title>
+    <!-- css -->
+    <style>
+        .custom-select {
+            position: relative;
+            width: 200px;
+            /* Adjust width as needed */
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .options {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            display: none;
+            /* Initially hide the options */
+        }
+
+        .options.open {
+            display: block;
+        }
+
+        .options option {
+            display: none;
+        }
+
+        .options.open option {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <a href="https://www.geeksforgeeks.org/how-to-create-tags-input-box-in-html-css-and-javascript/"> geeksforgeeks for new study</a>
+    </div>
+    <!-- html code -->
+    <div class="custom-select">
+        <input type="text" class="search-input" placeholder="Search...">
+        <select class="options" size="5">
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+            <!-- Add more options as needed -->
+        </select>
+    </div>
+
+
+    <!-- js code  -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-input');
+            const options = document.querySelector('.options');
+
+            searchInput.addEventListener('click', function () {
+                options.classList.toggle('open');
+            });
+
+            searchInput.addEventListener('input', function () {
+                const searchText = this.value.toLowerCase();
+
+                const optionElements = options.querySelectorAll('option');
+                optionElements.forEach(function (option) {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchText)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+
+            options.addEventListener('change', function () {
+                searchInput.value = options.value;
+                options.classList.remove('open');
+            });
+        });
+
+    </script>
+</body>
+
+</html>

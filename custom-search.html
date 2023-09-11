@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Search</title>
+
+    <!-- css style -->
+    <style>
+        .custom-select {
+            position: relative;
+            display: inline-block;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .options {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            z-index: 1;
+            background-color: #f9f9f9;
+            width: 100%;
+            border: 1px solid #ccc;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .option {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .option:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- html code  -->
+    <div class="custom-select">
+        <input type="text" class="search-input" placeholder="Search...">
+        <ul class="options">
+            <li class="option">Option 1</li>
+            <li class="option">Option 2</li>
+            <li class="option">Option 3</li>
+            <!-- Add more options as needed -->
+        </ul>
+    </div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchInput = document.querySelector('.search-input');
+            const options = document.querySelectorAll('.option');
+
+            searchInput.addEventListener('input', function () {
+                const searchText = this.value.toLowerCase();
+
+                options.forEach(function (option) {
+                    const text = option.textContent.toLowerCase();
+                    if (text.includes(searchText)) {
+                        option.style.display = 'block';
+                    } else {
+                        option.style.display = 'none';
+                    }
+                });
+            });
+
+            options.forEach(function (option) {
+                option.addEventListener('click', function () {
+                    searchInput.value = this.textContent;
+                    options.forEach(function (option) {
+                        option.style.display = 'block';
+                    });
+                });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
