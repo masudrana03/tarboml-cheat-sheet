@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1>JavaScript Functions</h1>
+
+    <div class="pricing">
+        <label for="billingSwitch1">Toggle Pricing:</label>
+        <input type="checkbox" id="billingSwitch1">
+
+        <div class="price">99</div>
+        <div class="price">199</div>
+        <div class="price">1</div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            var originalValues = [];
+
+            $('.price').each(function () {
+                originalValues.push(parseInt($(this).text(), 10) || 0);
+            });
+
+            $('#billingSwitch1').change(function () {
+                $('.price').each(function (index) {
+                    var originalValue = originalValues[index];
+                    var targetValue = $('#billingSwitch1').is(':checked') ? originalValue * 10 : originalValue;
+
+                    animateCountUp($(this), targetValue, 1000);
+                });
+            });
+        });
+
+        function animateCountUp(element, targetValue, duration) {
+            var startValue = parseInt(element.text(), 10) || 0;
+            var increment = (targetValue - startValue) / (duration / 10);
+
+            var interval = setInterval(function () {
+                startValue += increment;
+                element.text(Math.round(startValue));
+
+                if ((increment > 0 && startValue >= targetValue) || (increment < 0 && startValue <= targetValue)) {
+                    clearInterval(interval);
+                    element.text(targetValue);
+                }
+            }, 10);
+        }
+    </script>
+
+</body>
+
+</html>
