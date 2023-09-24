@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>JavaScript Functions</h1>
+
+    <div class="pricing">
+        <label for="billingSwitch1">Toggle Pricing:</label>
+        <input type="checkbox" id="billingSwitch1">
+
+        <div id="priceStandard1" class="price">99</div>
+        <div id="pricePremium" class="price">199</div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var originalValueStandard = parseInt($('#priceStandard1').text(), 10) || 0;
+            var originalValuePremium = parseInt($('#pricePremium').text(), 10) || 0;
+
+            $('#billingSwitch1').change(function() {
+                var targetValueStandard = 199;
+                var targetValuePremium = 299;
+
+                if (this.checked) {
+                    animateCountUp($('#priceStandard1'), targetValueStandard, 1000);
+                    animateCountUp($('#pricePremium'), targetValuePremium, 1000);
+                } else {
+                    animateCountUp($('#priceStandard1'), originalValueStandard, 1000);
+                    animateCountUp($('#pricePremium'), originalValuePremium, 1000);
+                }
+            });
+        });
+
+        function animateCountUp(element, targetValue, duration) {
+            var startValue = parseInt(element.text(), 10) || 0;
+            var increment = Math.ceil((targetValue - startValue) / (duration / 10));
+
+            var interval = setInterval(function() {
+                startValue += increment;
+                element.text(startValue);
+
+                if ((increment > 0 && startValue >= targetValue) || (increment < 0 && startValue <= targetValue)) {
+                    clearInterval(interval);
+                    element.text(targetValue);
+                }
+            }, 10);
+        }
+    </script>
+
+</body>
+</html>
