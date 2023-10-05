@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .dropzone {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .message {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-name {
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .progress {
+            width: 50%;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 30px;
+            background-color: #4caf50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="dropzone" class="dropzone hidden">
+        <div class="message" id="message">Drop files here</div>
+        <div class="file-name" id="file-name"></div>
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            const dropzone = $('#dropzone');
+            const message = $('#message');
+            const fileName = $('#file-name');
+            const progressBar = $('#progress-bar');
+
+            $(document).on('dragover', function (e) {
+                e.preventDefault();
+                dropzone.removeClass('hidden');
+            });
+
+            dropzone.on('dragleave', function () {
+                dropzone.addClass('hidden');
+            });
+
+            dropzone.on('drop', function (e) {
+                e.preventDefault();
+
+                const files = e.originalEvent.dataTransfer.files;
+                const file = files[0];
+
+                fileName.text(file.name);
+
+                const formData = new FormData();
+                formData.append('file', file);
+
+                axios.post('uploadUrl', formData, {
+                    onUploadProgress: (progressEvent) => {
+                        const percentComplete = (progressEvent.loaded / progressEvent.total) * 100;
+                        progressBar.css('width', percentComplete + '%');
+                        progressBar.text(percentComplete.toFixed(2) + '%');
+                    }
+                })
+                    .then(response => {
+                        console.log('File uploaded successfully:', response.data);
+                    })
+                    .catch(error => {
+                        console.error('Error uploading file:', error);
+                    });
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
