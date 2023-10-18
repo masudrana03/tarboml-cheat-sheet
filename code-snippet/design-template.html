@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Snippet Site</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .code-container {
+            background: linear-gradient(to right, #444, #333);
+            border: 1px solid #666;
+            padding: 10px;
+            margin: 10px auto;
+            max-width: 800px;
+            text-align: left;
+            overflow-x: auto;
+            border-radius: 2px;
+        }
+
+        .copy-button {
+            background: linear-gradient(to right, #4caf50, #45a049);
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .toast {
+            display: none;
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Code Snippets</h1>
+
+    <!-- HTML Snippet -->
+    <div class="code-container">
+        <h2>HTML Snippet</h2>
+        <pre><code id="html-code">&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Sample Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        <button class="copy-button" onclick="copyToClipboard('html-code')">Copy HTML</button>
+    </div>
+
+    <!-- CSS Snippet -->
+    <div class="code-container">
+        <h2>CSS Snippet</h2>
+        <pre><code id="css-code">body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}</code></pre>
+        <button class="copy-button" onclick="copyToClipboard('css-code')">Copy CSS</button>
+    </div>
+
+    <!-- JavaScript Snippet -->
+    <div class="code-container">
+        <h2>JavaScript Snippet</h2>
+        <pre><code id="js-code">function greet() {
+    alert('Hello World!');
+}</code></pre>
+        <button class="copy-button" onclick="copyToClipboard('js-code')">Copy JavaScript</button>
+    </div>
+
+    <div class="toast" id="toast">Code copied to clipboard!</div>
+
+    <script>
+        function copyToClipboard(codeType) {
+            var codeElement = document.getElementById(codeType);
+            var codeText = codeElement.innerText;
+
+            navigator.clipboard.writeText(codeText).then(function () {
+                var toast = document.getElementById('toast');
+                toast.style.display = 'block';
+                setTimeout(function () {
+                    toast.style.display = 'none';
+                }, 3000);
+            }, function () {
+                alert('Failed to copy code. Please copy manually.');
+            });
+        }
+    </script>
+</body>
+
+</html>
